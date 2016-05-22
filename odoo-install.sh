@@ -14,7 +14,8 @@
 # odoo-install
 #
 # EXAMPLE:
-# ./odoo-install 
+# chmod +x odoo-install.sh
+# ./odoo-install.sh 
 #
 ################################################################################
  
@@ -97,7 +98,7 @@ sudo su $OE_USER -c "git clone --depth 1 --single-branch --branch $OE_VERSION gi
 cd -
 
 echo -e "\n---- Create custom module directory ----"
-sudo su $OE_USER -p "mkdir $OE_HOME/custom/addons"
+sudo su $OE_USER -c "mkdir -p $OE_HOME/custom/addons"
 
 echo -e "\n---- Setting permissions on home folder ----"
 sudo chown -R $OE_USER:$OE_USER $OE_HOME/*
