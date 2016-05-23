@@ -77,7 +77,7 @@ sudo chown $OE_USER:$OE_USER /var/log/$OE_USER
 # Install Basic Dependencies
 #--------------------------------------------------
 echo -e "\n---- Install tool packages ----"
-sudo apt-get install wget git python-pip python-imaging python-setuptools python-dev libxslt-dev libxml2-dev libldap2-dev libsasl2-dev node-less postgresql-server-dev-all libjpeg-dev libfreetype6-dev zlib1g-dev libpng12-de -y
+sudo apt-get install wget git python-pip python-imaging python-setuptools python-dev libxslt1-dev libxml2-dev libldap2-dev libsasl2-dev node-less postgresql-server-dev-all libjpeg-dev libfreetype6-dev zlib1g-dev libpng12-dev -y
 
 echo -e "\n---- Install wkhtml and place on correct place for ODOO 8 ----"
 sudo wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
@@ -94,7 +94,7 @@ sudo rm wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
 
 echo -e "\n==== Download ODOO Server ===="
 cd $OE_HOME
-sudo su $OE_USER -c "git clone --depth 1 --single-branch --branch $OE_VERSION git@github.com:odoo/odoo.git $OE_HOME_EXT/"
+sudo su $OE_USER -c "git clone --depth 1 --single-branch --branch $OE_VERSION https://github.com/odoo/odoo $OE_HOME_EXT/"
 cd -
 
 echo -e "\n---- Create custom module directory ----"
@@ -108,10 +108,10 @@ sudo chown -R $OE_USER:$OE_USER $OE_HOME/*
 #--------------------------------------------------
 echo -e "\n---- Install tool packages ----"
 sudo pip install -r $OE_HOME_EXT/requirements.txt
-	
+
 #echo -e "\n---- Install python packages ----"
 sudo easy_install pyPdf vatnumber pydot psycogreen suds ofxparse
-	
+
 
 #--------------------------------------------------
 # Configure ODOO
