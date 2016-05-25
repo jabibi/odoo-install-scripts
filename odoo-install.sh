@@ -1,13 +1,13 @@
 #!/bin/bash
 ################################################################################
-# Script for Installation: ODOO Community server on Ubuntu 16.04
+# Script for Installation: ODOO Community server on Ubuntu 16.04 (64 bits)
 # Authors
 #   * André Schenkels, ICTSTUDIO 2015
 #   * Javi Melendez, <javimelex@gmail.com> 2016
 #-------------------------------------------------------------------------------
 #  
 # This script will install ODOO Community Server on
-# clean Ubuntu 16.04 Desktop/Server
+# clean Ubuntu 16.04 Desktop (64 bits)
 #-------------------------------------------------------------------------------
 # USAGE:
 #
@@ -19,21 +19,21 @@
 #
 ################################################################################
  
-##fixed parameters
-#openerp
+# Fixed parameters
+# Odoo
 OE_USER="odoo"
 OE_HOME="/home/$OE_USER"
 OE_HOME_EXT="/home/$OE_USER/git/odoo"
 
-#Enter version for checkout "9.0", "8.0", "7.0", "master" for trunk
+# Enter version for checkout "9.0", "8.0", "7.0", "master" for trunk
 OE_VERSION="8.0"
 
-#set the superadmin password
+# Set the superadmin password
 OE_SUPERADMIN="admin"
 OE_CONFIG="$OE_USER-server"
 INIT_FILE=/lib/systemd/system/$OE_CONFIG.service
 
-#set locale
+# Set locale
 LOCALE_LANG=es_ES.UTF-8
 
 #--------------------------------------------------
@@ -55,7 +55,7 @@ echo -e "\n---- Set locales ----"
 sudo echo "LC_ALL=$LOCALE_LANG" >> /etc/environment
 
 echo -e "\n---- Install PostgreSQL Server ----"
-sudo apt-get install postgresql -y
+sudo apt-get install -y postgresql
 
 echo -e "\n---- Creating the ODOO PostgreSQL User  ----"
 sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
@@ -77,7 +77,7 @@ sudo chown $OE_USER:$OE_USER /var/log/$OE_USER
 # Install Basic Dependencies
 #--------------------------------------------------
 echo -e "\n---- Install tool packages ----"
-sudo apt-get install wget git python-pip python-imaging python-setuptools python-dev libxslt1-dev libxml2-dev libldap2-dev libsasl2-dev node-less postgresql-server-dev-all libjpeg-dev libfreetype6-dev zlib1g-dev libpng12-dev -y
+sudo apt-get install -y wget git python-pip python-imaging python-setuptools python-dev libxslt1-dev libxml2-dev libldap2-dev libsasl2-dev node-less postgresql-server-dev-all libjpeg-dev libfreetype6-dev zlib1g-dev libpng12-dev
 
 echo -e "\n---- Install wkhtml and place on correct place for ODOO 8 ----"
 sudo wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
@@ -106,12 +106,9 @@ sudo chown -R $OE_USER:$OE_USER $OE_HOME/*
 #--------------------------------------------------
 # Install Dependencies
 #--------------------------------------------------
-echo -e "\n---- Install tool packages ----"
+echo -e "\n---- Install python packages ----"
 sudo pip install -r $OE_HOME_EXT/requirements.txt
-
-#echo -e "\n---- Install python packages ----"
 sudo easy_install pyPdf vatnumber pydot psycogreen suds ofxparse
-
 
 #--------------------------------------------------
 # Configure ODOO
