@@ -80,13 +80,13 @@ echo -e "\n---- Install tool packages ----"
 sudo apt-get install -y wget git python-pip python-imaging python-setuptools python-dev libxslt1-dev libxml2-dev libldap2-dev libsasl2-dev node-less postgresql-server-dev-all libjpeg-dev libfreetype6-dev zlib1g-dev libpng12-dev
 
 echo -e "\n---- Install wkhtml and place on correct place for ODOO 8 ----"
-sudo wget http://download.gna.org/wkhtmltopdf/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-i386.deb
-sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-i386.deb
+sudo wget http://download.gna.org/wkhtmltopdf/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb
+sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
 sudo apt-get install -f -y
-sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-i386.deb
+sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
 sudo ln -s /usr/local/bin/wkhtmltopdf /usr/bin
 sudo ln -s /usr/local/bin/wkhtmltoimage /usr/bin
-sudo rm wkhtmltox-0.12.1_linux-trusty-i386.deb
+sudo rm wkhtmltox-0.12.1_linux-trusty-amd64.deb
 
 #--------------------------------------------------
 # Install ODOO
