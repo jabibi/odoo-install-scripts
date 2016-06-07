@@ -132,7 +132,7 @@ sudo su root -c "echo 'addons_path = $OE_HOME/custom/addons,$OE_HOME_EXT/addons'
 
 echo -e "* Create startup file"
 sudo su root -c "echo '#!/bin/sh' >> $OE_HOME/start.sh"
-sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/openerp-server --config=/etc/$OE_CONFIG.conf' >> $OE_HOME/start.sh"
+sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/odoo.py --config=/etc/$OE_CONFIG.conf' >> $OE_HOME/start.sh"
 sudo chmod 755 $OE_HOME/start.sh
 
 #--------------------------------------------------
@@ -157,7 +157,7 @@ sudo echo "Group=$OE_USER" >> $INIT_FILE
 sudo echo "SyslogIdentifier=$OE_CONFIG" >> $INIT_FILE
 sudo echo "PIDFile=/run/odoo/$OE_CONFIG.pid" >> $INIT_FILE
 sudo echo "ExecStartPre=/usr/bin/install -d -m755 -o $OE_USER -g $OE_USER /run/odoo" >> $INIT_FILE
-sudo echo "ExecStart=$OE_HOME_EXT/openerp-server -c /etc/$OE_CONFIG.conf --pid=/run/odoo/$OE_CONFIG.pid --syslog $OPENERP_ARGS" >> $INIT_FILE
+sudo echo "ExecStart=$OE_HOME_EXT/odoo.py -c /etc/$OE_CONFIG.conf --pid=/run/odoo/$OE_CONFIG.pid" >> $INIT_FILE
 sudo echo 'ExecStop=/bin/kill $MAINPID' >> $INIT_FILE
 sudo echo '[Install]' >> $INIT_FILE
 sudo echo 'WantedBy=multi-user.target' >> $INIT_FILE
