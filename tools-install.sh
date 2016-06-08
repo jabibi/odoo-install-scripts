@@ -9,6 +9,7 @@
 # clean Ubuntu 16.04 Desktop (64 bits):
 #   * gitg
 #   * pgAdmin III
+#   * PyCharm Community 2016.1.4
 #   * LiClipse 3.0.3
 #
 #-------------------------------------------------------------------------------
@@ -24,33 +25,59 @@
  
 # Fixed parameters
 OE_USER="odoo"
+
+# PyCharm
+PYCHARM_PATH=/opt
+
 # LiClipse
-LICLIPSE_PATH="/opt"
+LICLIPSE_PATH=/opt
 LICLIPSE_DESKTOP='liclipse.desktop'
-
+LICLIPSE_DESKTOP_PATH=/usr/share/applications/$LICLIPSE_DESKTOP
 
 #--------------------------------------------------
-# Developer Tools
+# Install gitg
 #--------------------------------------------------
 
-echo -e "* Install gitg"
+echo -e "\n==== Install gitg ====\n"
 sudo apt-get install gitg -y
 
-echo -e "* Install pgAdmin III"
+#--------------------------------------------------
+# Install pgAdmin III
+#--------------------------------------------------
+
+echo -e "\n==== Install pgAdmin III ====\n"
 sudo apt-get install pgadmin3 -y
 
-echo -e "* Install LiClipse 3.0.3 (64 bits)"
-sudo mkdir $LICLIPSE_PATH
-sudo cd $LICLIPSE_PATH
+#--------------------------------------------------
+# Install PyCharm 2016.1.4
+#--------------------------------------------------
+
+echo -e "\n==== Install PyCharm Community 2016.1.4 ====\n"
+sudo mkdir -p $PYCHARM_PATH
+cd $PYCHARM_PATH
+sudo wget https://download.jetbrains.com/python/pycharm-community-2016.1.4.tar.gz
+sudo tar xfz pycharm-community-2016.1.4.tar.gz
+sudo rm pycharm-community-2016.1.4.tar.gz
+cd -
+
+#--------------------------------------------------
+# Install LiClipse 3.0.3 (64 bits)
+#--------------------------------------------------
+
+echo -e "\n==== Install LiClipse 3.0.3 (64 bits) ====\n"
+sudo mkdir -p $LICLIPSE_PATH
+cd $LICLIPSE_PATH
 sudo wget https://googledrive.com/host/0BwwQN8QrgsRpLVlDeHRNemw3S1E/LiClipse%203.0.3/liclipse_3.0.3_linux.gtk.x86_64.tar.gz
 sudo tar xfz liclipse_3.0.3_linux.gtk.x86_64.tar.gz
 sudo rm liclipse_3.0.3_linux.gtk.x86_64.tar.gz
-sudo ln -s ./liclipse/LiClipse /usr/bin/liclipse
+sudo ln -sf $LICLIPSE_PATH/liclipse/LiClipse /usr/bin/liclipse
 sudo cp ./liclipse/icon.xpm /usr/share/pixmaps/liclipse.xpm
+cd -
 
-sudo touch /usr/share/applications/$LICLIPSE_DESKTOP
-sudo chmod 666 /usr/share/applications/$LICLIPSE_DESKTOP
-sudo cat > /usr/share/applications/$LICLIPSE_DESKTOP <<EOL
+sudo rm -f $LICLIPSE_DESKTOP_PATH
+sudo touch $LICLIPSE_DESKTOP_PATH
+sudo chmod 644 $LICLIPSE_DESKTOP_PATH
+sudo su root -c "cat > $LICLIPSE_DESKTOP_PATH <<EOL
 [Desktop Entry]
 Encoding=UTF-8
 Version=1.0
@@ -63,20 +90,4 @@ StartupNotify=false
 StartupWMClass=LiClipse
 OnlyShowIn=Unity;
 X-UnityGenerated=true
-EOL
-sudo chmod 644 /usr/share/applications/$LICLIPSE_DESKTOP
-
-# Method 1
-oldlist=`sudo -u $OE_USER dbus-launch --exit-with-session gsettings get com.canonical.Unity.Launcher favorites`
-newlist=`echo $oldlist | sed "s/]/, '${LICLIPSE_DESKTOP}']"/`
-sudo -u $OE_USER dbus-launch --exit-with-session gsettings set com.canonical.Unity.Launcher favorites "$newlist"
-# Method 2
-sudo su $OE_USER
-oldlist=`gsettings get com.canonical.Unity.Launcher favorites`
-newlist=`echo $oldlist | sed "s/]/, '${LICLIPSE_DESKTOP}']"/`
-gsettings set com.canonical.Unity.Launcher favorites "$newlist"
-exit
-
-
-
-
+EOL"
