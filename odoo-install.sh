@@ -18,7 +18,17 @@
 # ./odoo-install.sh 
 #
 ################################################################################
- 
+
+# set -o errexit
+# set -o nounset
+# set -o pipefail
+# set -o xtrace
+
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+
 # Fixed parameters
 # Odoo
 OE_USER="odoo"
@@ -115,10 +125,15 @@ sudo chown -R $OE_USER:$OE_USER $OE_HOME/*
 # Install Dependencies
 #--------------------------------------------------
 
-echo -e "\n---- Install python packages ----"
+echo -e "---- Install python packages ----"
 sudo su root -c "pip install --upgrade --force-reinstall pip"
 sudo su root -c "pip install -r $OE_HOME_EXT/requirements.txt"
 sudo su root -c "easy_install pyPdf vatnumber pydot psycogreen suds ofxparse"
+
+echo -e "---- Install Less CSS via nodejs ----"
+sudo apt-get install -y npm
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+sudo npm install -g less less-plugin-clean-css
 
 #--------------------------------------------------
 # Configure ODOO
