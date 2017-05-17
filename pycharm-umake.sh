@@ -25,6 +25,17 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+# If PostgreSQL PPA has been added
+cat << EOF > /etc/apt/preferences.d/pgdg.pref
+Package: *
+Pin: release o=apt.postgresql.org
+Pin-Priority: 500
+
+Package:  python*
+Pin: release o=apt.postgresql.org
+Pin-Priority: 400
+EOF
+
 # Install latest stable version of ubuntu-make
 sudo add-apt-repository ppa:ubuntu-desktop/ubuntu-make
 sudo apt-get update
@@ -41,4 +52,3 @@ umake ide pycharm
 #umake -r ide pycharm
 # or
 #umake -r ide pycharm-professional
-
